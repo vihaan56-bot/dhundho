@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useInventory } from '../context/InventoryContext';
-import { ArrowLeft, Navigation, Compass, CheckCircle2, RotateCcw, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Camera, Navigation, Compass, CheckCircle2, RotateCcw, AlertTriangle } from 'lucide-react';
 
 interface GuideStep {
   distance: number;
@@ -15,7 +15,7 @@ export const VisualLocation: React.FC = () => {
 
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
   const [cameraError, setCameraError] = useState(false);
-  const [findingState, setFindingState] = useState<'idle' | 'scanning' | 'navigating' | 'found'>('navigating');
+  const [findingState, setFindingState] = useState<'idle' | 'scanning' | 'navigating' | 'found'>('idle');
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
   const [distance, setDistance] = useState(2.4);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -126,7 +126,11 @@ export const VisualLocation: React.FC = () => {
 
   const activeStep = guidanceSteps[currentStepIdx];
 
-
+  const handleStartFinding = () => {
+    setFindingState('navigating');
+    setCurrentStepIdx(0);
+    setDistance(guidanceSteps[0].distance);
+  };
 
   const handleReset = () => {
     setFindingState('idle');
@@ -257,27 +261,39 @@ export const VisualLocation: React.FC = () => {
       <div className="relative z-10 p-5 bg-gradient-to-t from-black via-black/90 to-transparent flex flex-col gap-4">
         
         {/* Navigation Info Bar */}
-        <div className="p-3 bg-white/[0.04] backdrop-blur-md rounded-2xl border border-white/5 flex items-center gap-3.5">
-          {/* Pulsing direction arrow icon */}
-          <div className="w-10 h-10 rounded-xl bg-indigo-600/20 flex items-center justify-center text-indigo-400 border border-indigo-500/20 shadow">
-            <Navigation className={`w-5 h-5 transition-transform duration-300 ${
-              activeStep.direction === 'right' ? 'rotate-90' : 
-              activeStep.direction === 'left' ? '-rotate-90' : 
-              activeStep.direction === 'down' ? 'rotate-180' : ''
-            }`} />
+        {/* Navigation Info Bar */}
+        {findingState !== 'idle' && (
+          <div className="p-3 bg-white/[0.04] backdrop-blur-md rounded-2xl border border-white/5 flex items-center gap-3.5">
+            {/* Pulsing direction arrow icon */}
+            <div className="w-10 h-10 rounded-xl bg-indigo-600/20 flex items-center justify-center text-indigo-400 border border-indigo-500/20 shadow">
+              <Navigation className={`w-5 h-5 transition-transform duration-300 ${
+                activeStep.direction === 'right' ? 'rotate-90' : 
+                activeStep.direction === 'left' ? '-rotate-90' : 
+                activeStep.direction === 'down' ? 'rotate-180' : ''
+              }`} />
+            </div>
+            <div className="flex-1">
+              <span className="text-[9px] font-bold text-indigo-400 uppercase tracking-widest block leading-none mb-1">
+                Active Guidance
+              </span>
+              <p className="text-[12px] font-bold text-white leading-snug">
+                {activeStep.instruction}
+              </p>
+            </div>
           </div>
-          <div className="flex-1">
-            <span className="text-[9px] font-bold text-indigo-400 uppercase tracking-widest block leading-none mb-1">
-              Active Guidance
-            </span>
-            <p className="text-[12px] font-bold text-white leading-snug">
-              {activeStep.instruction}
-            </p>
-          </div>
-        </div>
+        )}
 
         {/* Buttons */}
         <div className="flex gap-3">
+          {findingState === 'idle' && (
+            <button
+              onClick={handleStartFinding}
+              className="flex-1 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 cursor-pointer active:scale-95 transition-all"
+            >
+              <Camera className="w-4 h-4" /> Start Finding (AR)
+            </button>
+          )}
+
           {findingState === 'navigating' && (
             <div className="flex-1 py-3.5 text-center bg-indigo-950/20 border border-indigo-500/20 rounded-2xl text-xs font-bold text-indigo-400 tracking-wide pulse-glow">
               🧭 Autopilot Guidance Active... Move closer
