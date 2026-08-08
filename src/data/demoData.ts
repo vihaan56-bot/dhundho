@@ -1,0 +1,120 @@
+import type { LocationNode, Thing } from '../types';
+
+export const INITIAL_ROOMS: LocationNode[] = [
+  { id: 'room-bedroom', name: 'Bedroom', type: 'room', parentId: null, icon: '🛏️' },
+  { id: 'room-kitchen', name: 'Kitchen', type: 'room', parentId: null, icon: '🍳' },
+  { id: 'room-living', name: 'Living Room', type: 'room', parentId: null, icon: '🛋️' },
+];
+
+export const INITIAL_LOCATIONS: LocationNode[] = [
+  // Bedroom hierarchy
+  { id: 'loc-wardrobe', name: 'Wardrobe', type: 'furniture', parentId: 'room-bedroom', icon: '🚪' },
+  { id: 'loc-top-drawer', name: 'Top Drawer', type: 'drawer', parentId: 'loc-wardrobe', icon: '📥' },
+  { id: 'loc-elec-box', name: 'Electronics Box', type: 'box', parentId: 'loc-top-drawer', icon: '📦' },
+  { id: 'loc-lock-drawer', name: 'Lockable Drawer', type: 'drawer', parentId: 'loc-wardrobe', icon: '🔒' },
+  { id: 'loc-study-table', name: 'Study Table', type: 'furniture', parentId: 'room-bedroom', icon: '✍️' },
+  { id: 'loc-top-shelf', name: 'Top Shelf', type: 'shelf', parentId: 'loc-study-table', icon: '📚' },
+
+  // Kitchen hierarchy
+  { id: 'loc-pantry', name: 'Pantry', type: 'cabinet', parentId: 'room-kitchen', icon: '🥫' },
+  { id: 'loc-lower-shelf', name: 'Lower Shelf', type: 'shelf', parentId: 'loc-pantry', icon: '🗄️' },
+  { id: 'loc-cabinet', name: 'Cabinet', type: 'cabinet', parentId: 'room-kitchen', icon: '🚪' },
+  { id: 'loc-middle-shelf', name: 'Middle Shelf', type: 'shelf', parentId: 'loc-cabinet', icon: '🗄️' },
+  { id: 'loc-utility-drawer', name: 'Utility Drawer', type: 'drawer', parentId: 'room-kitchen', icon: '📥' },
+
+  // Living room hierarchy
+  { id: 'loc-tv-cabinet', name: 'TV Cabinet', type: 'furniture', parentId: 'room-living', icon: '📺' },
+  { id: 'loc-tv-top-drawer', name: 'Top Drawer', type: 'drawer', parentId: 'loc-tv-cabinet', icon: '📥' },
+  { id: 'loc-tv-low-drawer', name: 'Lower Drawer', type: 'drawer', parentId: 'loc-tv-cabinet', icon: '📥' },
+];
+
+export const INITIAL_THINGS: Thing[] = [
+  {
+    id: 'thing-batteries',
+    name: 'Batteries',
+    category: 'Electronics',
+    locationPath: ['room-bedroom', 'loc-wardrobe', 'loc-top-drawer', 'loc-elec-box'],
+    quantity: 6,
+    notes: 'AA and AAA alkaline batteries',
+    tags: ['battery', 'power', 'remote', 'cell'],
+    lastUpdated: new Date().toISOString(),
+    frequencySearched: 0,
+  },
+  {
+    id: 'thing-passport',
+    name: 'Passport',
+    category: 'Documents',
+    locationPath: ['room-bedroom', 'loc-wardrobe', 'loc-lock-drawer'],
+    quantity: 2,
+    notes: 'Primary passport and visa documents',
+    tags: ['passport', 'visa', 'document', 'travel', 'id'],
+    lastUpdated: new Date().toISOString(),
+    frequencySearched: 0,
+  },
+  {
+    id: 'thing-headphones',
+    name: 'Headphones',
+    category: 'Electronics',
+    locationPath: ['room-bedroom', 'loc-study-table', 'loc-top-shelf'],
+    quantity: 1,
+    notes: 'Noise-cancelling wireless headphones',
+    tags: ['music', 'headphones', 'sound', 'anc', 'bluetooth'],
+    lastUpdated: new Date().toISOString(),
+    frequencySearched: 0,
+  },
+  {
+    id: 'thing-rice',
+    name: 'Rice',
+    category: 'Kitchen',
+    locationPath: ['room-kitchen', 'loc-pantry', 'loc-lower-shelf'],
+    quantity: 1,
+    notes: 'Basmati rice bag (5 kg)',
+    tags: ['rice', 'food', 'chawal', 'grain', 'grocery'],
+    lastUpdated: new Date().toISOString(),
+    frequencySearched: 0,
+  },
+  {
+    id: 'thing-spices',
+    name: 'Spices',
+    category: 'Kitchen',
+    locationPath: ['room-kitchen', 'loc-cabinet', 'loc-middle-shelf'],
+    quantity: 8,
+    notes: 'Turmeric, chilli powder, cumin, and masala boxes',
+    tags: ['masala', 'cooking', 'spice', 'kitchen', 'food'],
+    lastUpdated: new Date().toISOString(),
+    frequencySearched: 0,
+  },
+  {
+    id: 'thing-torch',
+    name: 'Torch',
+    category: 'Tools',
+    locationPath: ['room-kitchen', 'loc-utility-drawer'],
+    quantity: 1,
+    notes: 'Rechargeable LED flashlight',
+    tags: ['flashlight', 'light', 'emergency', 'torch'],
+    lastUpdated: new Date().toISOString(),
+    frequencySearched: 0,
+  },
+  {
+    id: 'thing-tv-remote',
+    name: 'TV Remote',
+    category: 'Electronics',
+    locationPath: ['room-living', 'loc-tv-cabinet', 'loc-tv-top-drawer'],
+    quantity: 1,
+    notes: 'Smart TV remote control',
+    tags: ['remote', 'tv', 'television', 'controller'],
+    lastUpdated: new Date().toISOString(),
+    frequencySearched: 0,
+  },
+  {
+    id: 'thing-hdmi',
+    name: 'HDMI Cable',
+    category: 'Electronics',
+    locationPath: ['room-living', 'loc-tv-cabinet', 'loc-tv-low-drawer'],
+    quantity: 2,
+    notes: 'Spare high-speed HDMI cables',
+    tags: ['wire', 'cable', 'tv', 'hdmi', 'display'],
+    lastUpdated: new Date().toISOString(),
+    frequencySearched: 0,
+  },
+];
