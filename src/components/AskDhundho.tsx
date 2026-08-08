@@ -17,7 +17,14 @@ export const AskDhundho: React.FC = () => {
   } = useInventory();
 
   // Tab state
-  const [activeTab, setActiveTab] = useState<'search' | 'scanner'>('search');
+  const [activeTab, setActiveTab] = useState<'search' | 'scanner'>(() => {
+    const saved = localStorage.getItem('dhundho_active_tab');
+    if (saved === 'scanner') {
+      localStorage.removeItem('dhundho_active_tab');
+      return 'scanner';
+    }
+    return 'search';
+  });
 
   // -------------------------------------------------------------
   // TAB 1: SEARCH STATE

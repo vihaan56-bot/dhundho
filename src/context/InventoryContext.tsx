@@ -34,6 +34,7 @@ interface InventoryContextType {
   clearSearchHistory: () => void;
   getLocationPathString: (thing: Thing) => string;
   getLocationNodeList: (thing: Thing) => LocationNode[];
+  loadDemoData: () => void;
 }
 
 const InventoryContext = createContext<InventoryContextType | undefined>(undefined);
@@ -330,6 +331,11 @@ export const InventoryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     setSearchHistory([]);
   };
 
+  const loadDemoData = () => {
+    setNodes([...INITIAL_ROOMS, ...INITIAL_LOCATIONS]);
+    setThings(INITIAL_THINGS);
+  };
+
   return (
     <InventoryContext.Provider value={{
       nodes,
@@ -354,7 +360,8 @@ export const InventoryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       addSearchHistory,
       clearSearchHistory,
       getLocationPathString,
-      getLocationNodeList
+      getLocationNodeList,
+      loadDemoData
     }}>
       {children}
     </InventoryContext.Provider>
