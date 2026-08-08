@@ -9,7 +9,6 @@ export const Dashboard: React.FC = () => {
     searchHistory, 
     setView, 
     getLocationPathString,
-    selectThingForAR,
     loadDemoData
   } = useInventory();
 
@@ -28,10 +27,7 @@ export const Dashboard: React.FC = () => {
     setView('ask');
   };
 
-  const handleFindThing = (thingId: string) => {
-    selectThingForAR(thingId);
-    setView('ar');
-  };
+
 
   return (
     <div className="flex flex-col gap-6 pb-6 animate-slide-up">
@@ -217,12 +213,7 @@ export const Dashboard: React.FC = () => {
                     </div>
                   </div>
 
-                  <button
-                    onClick={() => handleFindThing(thing.id)}
-                    className="px-3 py-1.5 rounded-xl bg-indigo-900/30 hover:bg-indigo-600 text-indigo-400 hover:text-white font-bold text-[10px] uppercase tracking-wider border border-indigo-500/20 group-hover:border-indigo-500 transition-all active:scale-95 cursor-pointer"
-                  >
-                    Locate
-                  </button>
+
                 </div>
               );
             })}

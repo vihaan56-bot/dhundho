@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useInventory } from '../context/InventoryContext';
 import type { Thing } from '../types';
-import { Search, Mic, MicOff, MapPin, Edit, Sparkles, AlertCircle, Camera, Loader2, Plus, Check, ImageIcon } from 'lucide-react';
+import { Search, Mic, MicOff, MapPin, Sparkles, AlertCircle, Camera, Loader2, Plus, Check, ImageIcon } from 'lucide-react';
 
 export const AskDhundho: React.FC = () => {
   const { 
@@ -10,7 +10,6 @@ export const AskDhundho: React.FC = () => {
     getLocationNodeList, 
     getLocationPathString,
     setView, 
-    selectThingForAR,
     incrementSearchCount,
     nodes,
     addThing
@@ -164,10 +163,7 @@ export const AskDhundho: React.FC = () => {
     executeSearch(query);
   };
 
-  const handleShowLocation = (thingId: string) => {
-    selectThingForAR(thingId);
-    setView('ar');
-  };
+
 
   const handleEditThing = (thingId: string) => {
     localStorage.setItem('dhundho_editing_thing_id', thingId);
@@ -483,18 +479,10 @@ export const AskDhundho: React.FC = () => {
 
                     <div className="mt-5 flex gap-3">
                       <button
-                        onClick={() => handleShowLocation(bestMatch.thing.id)}
-                        className="flex-1 py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs tracking-wider uppercase shadow-md shadow-indigo-600/10 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer glow-btn"
-                      >
-                        <MapPin className="w-3.5 h-3.5" /> Show Location
-                      </button>
-                      
-                      <button
                         onClick={() => handleEditThing(bestMatch.thing.id)}
-                        className="p-3 rounded-xl bg-slate-900 border border-gray-800 text-gray-400 hover:text-white active:scale-95 transition-all cursor-pointer"
-                        title="Edit Item"
+                        className="flex-1 py-3 px-4 rounded-xl bg-slate-900 border border-gray-800 text-gray-400 hover:text-white active:scale-95 transition-all cursor-pointer text-center font-bold text-xs uppercase"
                       >
-                        <Edit className="w-3.5 h-3.5" />
+                        ✏️ Edit Item Details
                       </button>
                     </div>
                   </div>

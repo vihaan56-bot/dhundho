@@ -60,7 +60,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         <nav className="nav-blur absolute bottom-0 left-0 right-0 z-40 border-t border-white/5 py-2 px-6 flex justify-between items-center rounded-b-0 sm:rounded-b-3xl">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = currentView === item.view || (item.view === 'ask' && currentView === 'ar');
+            const isActive = currentView === item.view;
             
             if (item.highlight) {
               return (

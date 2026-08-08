@@ -8,7 +8,6 @@ export const MyThings: React.FC = () => {
     nodes, 
     getLocationPathString, 
     setView, 
-    selectThingForAR,
     deleteThing 
   } = useInventory();
 
@@ -26,10 +25,7 @@ export const MyThings: React.FC = () => {
     }
   };
 
-  const handleLocate = (thingId: string) => {
-    selectThingForAR(thingId);
-    setView('ar');
-  };
+
 
   const handleEdit = (thingId: string) => {
     localStorage.setItem('dhundho_editing_thing_id', thingId);
@@ -237,18 +233,11 @@ export const MyThings: React.FC = () => {
                 </div>
               )}
 
-              {/* Bottom footer button details */}
+              {/* Bottom footer details */}
               <div className="flex items-center justify-between border-t border-white/5 pt-3">
                 <span className="text-[10px] text-gray-400 font-semibold">
                   Qty: <span className="text-white font-bold">{thing.quantity}</span> • Searched: {thing.frequencySearched}x
                 </span>
-                
-                <button
-                  onClick={() => handleLocate(thing.id)}
-                  className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-[10px] uppercase tracking-wider rounded-xl shadow-md shadow-indigo-600/10 active:scale-95 transition-all cursor-pointer"
-                >
-                  Locate
-                </button>
               </div>
             </div>
           );

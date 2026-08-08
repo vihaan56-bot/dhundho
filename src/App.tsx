@@ -6,7 +6,7 @@ import { MapHome } from './components/MapHome';
 import { AddThing } from './components/AddThing';
 import { AskDhundho } from './components/AskDhundho';
 import { MyThings } from './components/MyThings';
-import { VisualLocation } from './components/VisualLocation';
+
 import { Login } from './components/Login';
 
 const AppContent: React.FC = () => {
@@ -42,8 +42,7 @@ const AppContent: React.FC = () => {
         return <AskDhundho />;
       case 'things':
         return <MyThings />;
-      case 'ar':
-        return <VisualLocation />;
+
       default:
         return <Dashboard />;
     }

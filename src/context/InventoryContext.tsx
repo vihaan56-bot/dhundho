@@ -6,9 +6,9 @@ interface InventoryContextType {
   nodes: LocationNode[]; // Combined rooms and sub-locations
   things: Thing[];
   searchHistory: SearchHistoryEntry[];
-  currentView: 'dashboard' | 'map' | 'add' | 'ask' | 'things' | 'ar';
+  currentView: 'dashboard' | 'map' | 'add' | 'ask' | 'things';
   selectedThingIdForAR: string | null;
-  setView: (view: 'dashboard' | 'map' | 'add' | 'ask' | 'things' | 'ar') => void;
+  setView: (view: 'dashboard' | 'map' | 'add' | 'ask' | 'things') => void;
   selectThingForAR: (thingId: string | null) => void;
   
   // Auth state
