@@ -147,15 +147,14 @@ export const VisualLocation: React.FC = () => {
     <div className="relative w-full h-[650px] bg-black rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between">
       
       {/* 1. Camera Feed / Simulated Viewport */}
-      {cameraStream && !cameraError ? (
-        <video 
-          ref={videoRef} 
-          autoPlay 
-          playsInline 
-          muted 
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        />
-      ) : (
+      <video 
+        ref={videoRef} 
+        autoPlay 
+        playsInline 
+        muted 
+        className={`absolute inset-0 w-full h-full object-cover z-0 ${cameraStream && !cameraError ? '' : 'hidden'}`}
+      />
+      {(!cameraStream || cameraError) && (
         /* Animated simulation backdrop */
         <div className="absolute inset-0 bg-[#0c1020] flex items-center justify-center overflow-hidden z-0">
           {/* Spatial Grid Backdrop */}

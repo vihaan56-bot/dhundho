@@ -594,15 +594,14 @@ export const AskDhundho: React.FC = () => {
               onClick={handleCameraTap}
               className="relative w-full h-[380px] bg-slate-950 rounded-2xl overflow-hidden shadow-2xl border border-gray-900 cursor-pointer group"
             >
-              {cameraStream && !cameraError ? (
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  playsInline
-                  muted
-                  className="w-full h-full object-cover"
-                />
-              ) : (
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                className={`w-full h-full object-cover ${cameraStream && !cameraError ? '' : 'hidden'}`}
+              />
+              {(!cameraStream || cameraError) && (
                 /* Fallback grid simulator */
                 <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-[#0a0e1a] relative">
                   <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:16px_16px]"></div>
