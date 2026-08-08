@@ -52,6 +52,7 @@ export const AskDhundho: React.FC = () => {
   // Location mapping state for scanned object
   const [scannedLocationPath, setScannedLocationPath] = useState<string[]>([]);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [scannedName, setScannedName] = useState('');
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -268,14 +269,16 @@ export const AskDhundho: React.FC = () => {
       }
 
       const resJson = JSON.parse(cleanedText);
+      const targetName = resJson.name || 'AI Mapped Object';
 
       // Parse and apply fallback values if needed
       setAiResult({
-        name: resJson.name || 'AI Mapped Object',
+        name: targetName,
         category: resJson.category || 'Other',
         tags: resJson.tags || ['scanned', 'object'],
         description: resJson.description || 'Identified via camera scan.'
       });
+      setScannedName(targetName);
 
       // Default the scanned location path to first room
       const rooms = nodes.filter(n => n.type === 'room');
@@ -292,6 +295,7 @@ export const AskDhundho: React.FC = () => {
         tags: ['remote', 'controller', 'smart', 'tv'],
         description: 'Detected smart television remote control.'
       });
+      setScannedName('Smart Remote Control');
       const rooms = nodes.filter(n => n.type === 'room');
       if (rooms.length > 0) {
         setScannedLocationPath([rooms[0].id]);
@@ -305,7 +309,7 @@ export const AskDhundho: React.FC = () => {
     if (!aiResult || scannedLocationPath.length === 0) return;
 
     addThing({
-      name: aiResult.name,
+      name: scannedName.trim() || aiResult.name,
       category: aiResult.category,
       quantity: 1,
       locationPath: scannedLocationPath,
@@ -650,9 +654,18 @@ export const AskDhundho: React.FC = () => {
                   {/* Identification Details */}
                   <div className="flex justify-between items-start border-b border-white/5 pb-3">
                     <div>
-                      <h3 className="text-base font-extrabold text-white leading-tight flex items-center gap-1.5">
-                        <Sparkles className="w-4 h-4 text-emerald-400 animate-bounce" /> {aiResult.name}
-                      </h3>
+                      <div className="flex flex-col gap-1 mb-1.5 animate-slide-up w-full">
+                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wide px-0.5">Identified Object Name</span>
+                        <div className="relative">
+                          <input
+                            type="text"
+                            required
+                            value={scannedName}
+                            onChange={(e) => setScannedName(e.target.value)}
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-gray-800 text-white text-sm font-bold focus:outline-none focus:border-indigo-500/50"
+                          />
+                        </div>
+                      </div>
                       <span className="text-[10px] font-extrabold uppercase text-indigo-400 tracking-wider mt-1 block">
                         Category: {aiResult.category}
                       </span>

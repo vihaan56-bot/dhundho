@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useInventory } from '../context/InventoryContext';
-import { ArrowLeft, Camera, Navigation, Compass, CheckCircle2, RotateCcw, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Navigation, Compass, CheckCircle2, RotateCcw, AlertTriangle } from 'lucide-react';
 
 interface GuideStep {
   distance: number;
@@ -15,7 +15,7 @@ export const VisualLocation: React.FC = () => {
 
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
   const [cameraError, setCameraError] = useState(false);
-  const [findingState, setFindingState] = useState<'idle' | 'scanning' | 'navigating' | 'found'>('idle');
+  const [findingState, setFindingState] = useState<'idle' | 'scanning' | 'navigating' | 'found'>('navigating');
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
   const [distance, setDistance] = useState(2.4);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -126,11 +126,7 @@ export const VisualLocation: React.FC = () => {
 
   const activeStep = guidanceSteps[currentStepIdx];
 
-  const handleStartFinding = () => {
-    setFindingState('navigating');
-    setCurrentStepIdx(0);
-    setDistance(guidanceSteps[0].distance);
-  };
+
 
   const handleReset = () => {
     setFindingState('idle');
@@ -282,18 +278,9 @@ export const VisualLocation: React.FC = () => {
 
         {/* Buttons */}
         <div className="flex gap-3">
-          {findingState === 'idle' && (
-            <button
-              onClick={handleStartFinding}
-              className="flex-1 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 cursor-pointer active:scale-95 transition-all"
-            >
-              <Camera className="w-4 h-4" /> Start Finding (AR)
-            </button>
-          )}
-
           {findingState === 'navigating' && (
-            <div className="flex-1 py-3 text-center bg-slate-900 border border-gray-800 rounded-2xl text-xs font-bold text-gray-400 tracking-wide pulse-glow">
-              🔄 Navigating... Move closer
+            <div className="flex-1 py-3.5 text-center bg-indigo-950/20 border border-indigo-500/20 rounded-2xl text-xs font-bold text-indigo-400 tracking-wide pulse-glow">
+              🧭 Autopilot Guidance Active... Move closer
             </div>
           )}
 
