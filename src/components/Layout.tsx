@@ -1,13 +1,13 @@
 import React from 'react';
 import { useInventory } from '../context/InventoryContext';
-import { Home, Sparkles, MapPin, Package, PlusCircle } from 'lucide-react';
+import { Home, Sparkles, MapPin, Package, PlusCircle, LogOut } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const { currentView, setView } = useInventory();
+  const { currentView, setView, logout } = useInventory();
 
   const navItems = [
     { view: 'dashboard' as const, label: 'Home', icon: Home },
@@ -33,13 +33,22 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
           </div>
           
-          <button 
-            onClick={() => setView('add')}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs shadow-md shadow-indigo-600/20 active:scale-95 transition-all"
-          >
-            <PlusCircle className="w-3.5 h-3.5" />
-            <span>Add Thing</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={() => setView('add')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs shadow-md shadow-indigo-600/20 active:scale-95 transition-all"
+            >
+              <PlusCircle className="w-3.5 h-3.5" />
+              <span>Add</span>
+            </button>
+            <button 
+              onClick={logout}
+              className="p-1.5 rounded-xl bg-slate-900 border border-gray-800 text-gray-500 hover:text-red-400 hover:bg-red-500/10 active:scale-95 transition-all"
+              title="Logout"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </header>
 
         {/* Content Area */}

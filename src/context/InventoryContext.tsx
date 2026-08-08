@@ -11,6 +11,12 @@ interface InventoryContextType {
   setView: (view: 'dashboard' | 'map' | 'add' | 'ask' | 'things' | 'ar') => void;
   selectThingForAR: (thingId: string | null) => void;
   
+  // Auth state
+  userEmail: string | null;
+  isAuthenticated: boolean;
+  loginUser: (email: string) => void;
+  logout: () => void;
+  
   // Node management (rooms + sub-locations)
   addNode: (name: string, type: LocationNode['type'], parentId: string | null, icon: string, photo?: string) => string;
   updateNode: (id: string, name: string, icon: string) => void;
@@ -103,6 +109,28 @@ export const InventoryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const [currentView, setView] = useState<InventoryContextType['currentView']>('dashboard');
   const [selectedThingIdForAR, selectThingForAR] = useState<string | null>(null);
+
+  // Authentication state
+  const [userEmail, setUserEmail] = useState<string | null>(() => {
+    return localStorage.getItem('dhundho_user_email');
+  });
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    return localStorage.getItem('dhundho_authenticated') === 'true';
+  });
+
+  const loginUser = (email: string) => {
+    setUserEmail(email);
+    setIsAuthenticated(true);
+    localStorage.setItem('dhundho_user_email', email);
+    localStorage.setItem('dhundho_authenticated', 'true');
+  };
+
+  const logout = () => {
+    setUserEmail(null);
+    setIsAuthenticated(false);
+    localStorage.removeItem('dhundho_user_email');
+    localStorage.removeItem('dhundho_authenticated');
+  };
 
   // Sync to localStorage
   useEffect(() => {
@@ -311,6 +339,10 @@ export const InventoryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       selectedThingIdForAR,
       setView,
       selectThingForAR,
+      userEmail,
+      isAuthenticated,
+      loginUser,
+      logout,
       addNode,
       updateNode,
       deleteNode,

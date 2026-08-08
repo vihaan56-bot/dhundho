@@ -7,9 +7,10 @@ import { AddThing } from './components/AddThing';
 import { AskDhundho } from './components/AskDhundho';
 import { MyThings } from './components/MyThings';
 import { VisualLocation } from './components/VisualLocation';
+import { Login } from './components/Login';
 
 const AppContent: React.FC = () => {
-  const { currentView, setView } = useInventory();
+  const { currentView, setView, isAuthenticated } = useInventory();
 
   // Retrieve editing ID from localStorage if set
   const editingThingId = localStorage.getItem('dhundho_editing_thing_id');
@@ -18,6 +19,10 @@ const AppContent: React.FC = () => {
     localStorage.removeItem('dhundho_editing_thing_id');
     setView('things');
   };
+
+  if (!isAuthenticated) {
+    return <Login />;
+  }
 
   const renderView = () => {
     switch (currentView) {
